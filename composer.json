@@ -1,0 +1,16 @@
+{
+	"name":"form-to-disk",
+	"description":"Writes form data to a text file and uses wp_cron to send file via email",
+	"type":"wordpress-plugin",
+	"license":"MIT",
+	"authors":[
+		{
+			"name":"Jason Ingram",
+			"email":"jsoningram@gmail.com"
+		}
+	],
+	"require":{
+		"php":">=5.4.0",
+		"composer/installers":"~1.0"
+	}
+}
