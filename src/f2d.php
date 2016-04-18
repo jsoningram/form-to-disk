@@ -11,9 +11,9 @@
 
 		if ( isset( $_POST[ 'marker' ] ) && 'sweepstakes' == $_POST[ 'marker' ] ) {
 			$protected_dir = ABSPATH . trailingslashit( $f2d_option[ 'path' ] );
-			$form_data	   = $_POST[ 'firstName' ] . ',';
-			$form_data    .= $_POST[ 'lastName' ] . ',';
-			$form_data    .= $_POST[ 'email' ];
+			$form_data	   = trim( $_POST[ 'firstName' ] ) . ',';
+			$form_data    .= trim( $_POST[ 'lastName' ] ) . ',';
+			$form_data    .= trim( $_POST[ 'email' ] );
 			$entries       = fopen( $protected_dir . $f2d_option[ 'filename' ], 'a' ) 
 				or die( 'Unable to process that request' );
 			$txt           = date( 'Ymd' );
