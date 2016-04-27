@@ -1,7 +1,7 @@
 <?php
 	/*
 	Plugin Name: Form to Disk
-	Version: 0.2
+	Version: 0.3
 	Description: Writes form submissions to local text file and sends file via email at specified reccurence
 	Author: TEN 
 	Author URI: http://enthusiastnetwork.com/
