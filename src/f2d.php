@@ -22,6 +22,8 @@
 			$txt          .= $form_data;
 			fwrite( $entries, $txt . PHP_EOL );
 			fclose( $entries );
+
+			echo json_encode( $_POST );
 			die();
 		}
 	}
