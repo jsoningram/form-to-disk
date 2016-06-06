@@ -35,15 +35,24 @@
 
 		$to         = $f2d_option[ 'email' ];
 		$date       = date( 'Y-m-d' );
-		$attachment = [ ABSPATH . trailingslashit( $f2d_option[ 'path' ] ) . $f2d_option[ 'filename' ] ];
 		$headers    = []; 
+		$dir        = ABSPATH . trailingslashit( $f2d_option[ 'path' ] );
+		$filename   = $f2d_option[ 'filename' ];
+		$out        = $dir . $date . '/' . $date . '-' . $filename;
+
+		if ( move_files( $dir, $date ) ) {
+			concat_files( $dir, $filename, $date, $out );
+			$attachment = [ $out ];
+		} else {
+			$attachment = [ $dir . $filename ];
+		}
 
 		add_filter( 'wp_mail_content_type', 'f2d_content_type' );
 
 		wp_mail( 
 			$to, 
-			'Sweepstakes Entries as of ' . $date, 
-			'Attached are the sweepstakes entries as of ' . $date, 
+			'Sweepstakes Entries for week ending ' . $date, 
+			'Attached are the sweepstakes entries for the week ending ' . $date, 
 			$headers,
 			$attachment
 		);
@@ -53,6 +62,32 @@
 		return 'text/html';
 	}
 
+	function move_files( $dir, $date ) {
+		$files     = glob( $dir . '*.csv' );
+		$num_files = count( $files );
+
+		if ( 1 < $num_files ) {
+			$new_dir = $dir . $date;
+			mkdir( $new_dir, 0755 );
+
+			foreach ( $files as $key => $file ) {
+				rename( $file, $new_dir . '/' . basename( $file ) );
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function concat_files( $dir, $filename, $date, $out ) {
+		$files = glob( $dir . $date . '/*.csv' );
+		foreach ( $files as $file ) {
+			if ( file_put_contents( $out, file_get_contents( $file ),  FILE_APPEND ) ) {
+				unlink( $file );
+			}
+		}
+	}
+	
 	register_deactivation_hook( $plugin, 'f2d_deactivation' );
 
 	function f2d_deactivation() {
