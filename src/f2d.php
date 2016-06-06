@@ -25,8 +25,6 @@
 				);
 			}
 
-			$files = glob( $dir . 'part-*' );
-			$num_files = count( $files );
 			$entries       = fopen( $dir . $file, 'a' ) 
 				or die( 'Unable to open the file' );
 			$txt           = date( 'Ymd' );
